@@ -1,0 +1,327 @@
+{% extends "base.html" %}
+
+{% block title %} Yazılım Mühendisliği - {{ university_data.Bölüm }}{% endblock %}
+
+{% block content %}
+<div class="university-detail">
+    <h1>Fırat Üniversitesi</h1>
+    <h2 class="department-title">{{ university_data.Bölüm }}</h2>
+    
+    <div class="sorting-buttons">
+        <button class="sort-button" onclick="sortAcademics('Alıntı')">Alıntı Sayısına Göre Sırala</button>
+        <button class="sort-button" onclick="sortAcademics('h endeksi')">h-Endeksine Göre Sırala</button>
+        <button class="sort-button" onclick="sortAcademics('i10 endeksi')">i10-Endeksine Göre Sırala</button>
+    </div>
+    
+    <div class="academics-section">
+        <h3>Akademisyenler</h3>
+        <div class="academics-grid" id="academics-grid">
+            {% if university_data and university_data.Akademisyen %}
+                {% for akademisyen in university_data.Akademisyen %}
+                <div class="academic-card">
+                    <div class="academic-header">
+                        <div class="profile-info">
+                            <div class="profile-image">
+                                <img src="{{ url_for('static', filename='indir.png') }}" alt="{{ akademisyen.Akademisyen }}">
+                            </div>
+                            <h4>{{ akademisyen.Akademisyen }}</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="metrics">
+                        <div class="metric-item">
+                            <span class="metric-label">Alıntı</span>
+                            <span class="metric-value" data-metric="Alıntı">{{ akademisyen.Alıntı }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">h-endeksi</span>
+                            <span class="metric-value" data-metric="h endeksi">{{ akademisyen['h endeksi'] }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">i10-endeksi</span>
+                            <span class="metric-value" data-metric="i10 endeksi">{{ akademisyen['i10 endeksi'] }}</span>
+                        </div>
+                    </div>
+
+                    {% if akademisyen['Makale Başlıkları'] %}
+                    <button class="toggle-button" onclick="toggleArticles(this)">Makaleleri Göster</button>
+                    <div class="publications" style="display: none;">
+                        <h5>Makaleler</h5>
+                        <div class="publications-list">
+                            <ol>
+                            {% for makale in akademisyen['Makale Başlıkları'] %}
+                                <li>
+                                    {{ makale }}
+                                    <button class="like-button {% if makale in liked_articles %}liked{% endif %}" onclick="toggleLike(this, '{{ akademisyen.Akademisyen }}', '{{ makale }}')">♡</button>
+                                    <span class="like-count">{{ like_counts[makale] if makale in like_counts else 0 }}</span>
+                                    <button class="comment-button" onclick="toggleCommentSection(this)">💬</button>
+                                    <span class="comment-count">{{ comment_counts[makale] if makale in comment_counts else 0 }}</span>
+                                    <div class="comment-section" style="display: none;">
+                                        <textarea placeholder="Yorum yaz..."></textarea>
+                                        <button onclick="submitComment(this, '{{ akademisyen.Akademisyen }}', '{{ makale }}')">Gönder</button>
+                                        <div class="comments-list">
+                                            {% for comment in comments %}
+                                                {% if comment.akademisyen == akademisyen.Akademisyen and comment.makale == makale %}
+                                                    <div class="comment">
+                                                        <img src="{{ url_for('static', filename='images.jpg') }}" alt="Profil Simgesi" class="comment-profile-image">
+                                                        <div class="comment-content">
+                                                            <p><strong>Misafir Kullanıcı</strong></p>
+                                                            <p>{{ comment.comment }}</p>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                            </ol>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>Henüz veri bulunmamaktadır.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .sort-button, .toggle-button, .like-button, .comment-button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 12px;
+        transition: background-color 0.3s ease;
+    }
+
+    .sort-button:hover, .toggle-button:hover, .like-button:hover, .comment-button:hover {
+        background-color: #45a049;
+    }
+
+    .sort-button:focus, .toggle-button:focus, .like-button:focus, .comment-button:focus {
+        outline: none;
+    }
+
+    .like-button.liked {
+        color: red;
+    }
+
+    .publications-list {
+        max-height: 200px;
+        overflow-y: hidden;
+        transition: overflow-y 0.3s ease;
+    }
+
+    .publications-list:hover {
+        overflow-y: auto;
+    }
+
+    .publications-list::-webkit-scrollbar {
+        width: 24px;
+    }
+
+    .publications-list::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .publications-list::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+
+    .publications-list::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    .comment-section {
+        margin-top: 10px;
+    }
+
+    .comment-section textarea {
+        width: 100%;
+        height: 60px;
+        margin-bottom: 10px;
+    }
+
+    .comments-list {
+        margin-top: 10px;
+    }
+
+    .comments-list .comment {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+    }
+
+    .comments-list .comment-profile-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .comments-list .comment-content {
+        background-color: #f1f1f1;
+        padding: 5px;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .like-count, .comment-count {
+        margin-left: 5px;
+        font-size: 14px;
+        color: black; /* Change color to black */
+    }
+</style>
+
+<script>
+    function sortAcademics(criteria) {
+        const grid = document.getElementById('academics-grid');
+        const cards = Array.from(grid.getElementsByClassName('academic-card'));
+
+        cards.sort((a, b) => {
+            const aValue = parseInt(a.querySelector(`[data-metric="${criteria}"]`).textContent) || 0;
+            const bValue = parseInt(b.querySelector(`[data-metric="${criteria}"]`).textContent) || 0;
+
+            if (aValue === 0 && bValue !== 0) return 1;
+            if (bValue === 0 && aValue !== 0) return -1;
+            return bValue - aValue;
+        });
+
+        cards.forEach(card => grid.appendChild(card));
+    }
+
+    function toggleArticles(button) {
+        const publications = button.nextElementSibling;
+        if (publications.style.display === 'none') {
+            publications.style.display = 'block';
+            button.textContent = 'Makaleleri Gizle';
+        } else {
+            publications.style.display = 'none';
+            button.textContent = 'Makaleleri Göster';
+        }
+    }
+
+    function toggleLike(button, akademisyen, makale) {
+        const isLiked = button.classList.contains('liked');
+        fetch('/toggle_like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                akademisyen: akademisyen,
+                makale: makale,
+                liked: !isLiked,
+                user_name: 'Misafir Kullanıcı'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const likeCountSpan = button.nextElementSibling;
+                let likeCount = parseInt(likeCountSpan.textContent);
+                if (isLiked) {
+                    button.classList.remove('liked');
+                    button.textContent = '♡';
+                    likeCount--;
+                } else {
+                    button.classList.add('liked');
+                    button.textContent = '❤️';
+                    likeCount++;
+                }
+                likeCountSpan.textContent = likeCount;
+            } else {
+                alert('Beğeni durumu güncellenirken bir hata oluştu');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Beğeni durumu güncellenirken bir hata oluştu');
+        });
+    }
+
+    function toggleCommentSection(button) {
+        const commentSection = button.nextElementSibling.nextElementSibling;
+        if (commentSection.style.display === 'none') {
+            commentSection.style.display = 'block';
+        } else {
+            commentSection.style.display = 'none';
+        }
+    }
+
+    function submitComment(button, akademisyen, makale) {
+        const comment = button.previousElementSibling.value;
+        if (comment.trim() === '') {
+            alert('Yorum boş olamaz');
+            return;
+        }
+
+        fetch('/submit_comment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                akademisyen: akademisyen,
+                makale: makale,
+                comment: comment,
+                user_name: 'Misafir Kullanıcı'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Yorum başarıyla gönderildi');
+                button.previousElementSibling.value = '';
+                const commentsList = button.nextElementSibling;
+                const newComment = document.createElement('div');
+                newComment.classList.add('comment');
+                newComment.innerHTML = `
+                    <img src="image.jpg" alt="Profil Simgesi" class="comment-profile-image">
+                    <div class="comment-content">
+                        <p><strong>Misafir Kullanıcı</strong></p>
+                        <p>${comment}</p>
+                    </div>
+                `;
+                commentsList.appendChild(newComment);
+
+                const commentCountSpan = button.parentElement.previousElementSibling.querySelector('.comment-count');
+                let commentCount = parseInt(commentCountSpan.textContent);
+                commentCount++;
+                commentCountSpan.textContent = commentCount;
+            } else {
+                alert('Yorum gönderilirken bir hata oluştu');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Yorum gönderilirken bir hata oluştu');
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const publicationsLists = document.querySelectorAll('.publications-list');
+        publicationsLists.forEach(list => {
+            list.addEventListener('wheel', function(event) {
+                if (event.deltaY > 0) {
+                    list.scrollTop += 30;
+                } else {
+                    list.scrollTop -= 30;
+                }
+                event.preventDefault();
+            });
+        });
+    });
+</script>
+{% endblock %}
