@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Mühendislik Fakültesi Yazılım Mühendisliği{% endblock %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="../static/styleM.css">
+</head>
+<div class="university-detail">
+    <h1>Fırat Üniversitesi</h1>
+    <h2 class="department-title">{{ university_data.Bölüm }}</h2>
+    
+    <div class="sorting-buttons">
+        <button class="sort-button" onclick="sortAcademics('Alıntı')">Alıntı Sayısına Göre Sırala</button>
+        <button class="sort-button" onclick="sortAcademics('h endeksi')">h-Endeksine Göre Sırala</button>
+        <button class="sort-button" onclick="sortAcademics('i10 endeksi')">i10-Endeksine Göre Sırala</button>
+    </div>
+    
+    <div class="academics-section">
+        <h3>Akademisyenler</h3>
+        <div class="academics-grid" id="academics-grid">
+            {% if university_data and university_data.Akademisyen %}
+                {% for akademisyen in university_data.Akademisyen %}
+                <div class="academic-card">
+                    <div class="academic-header">
+                        <div class="profile-info">
+                            <div class="profile-image">
+                                <img src="{{ url_for('static', filename='profileA.png') }}" alt="{{ akademisyen.Akademisyen }}">
+                            </div>
+                            <div>
+                                <h4>{{ akademisyen.Akademisyen }}</h4>
+                                <p class="uzmanlik-alani">Uzmanlık Alanı: Şuanlık belirlenmedi {{ akademisyen.uzmanlik_alani }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metrics">
+                        <div class="metric-item">
+                            <span class="metric-label">Alıntı</span>
+                            <span class="metric-value" data-metric="Alıntı">{{ akademisyen.Alıntı }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">h-endeksi</span>
+                            <span class="metric-value" data-metric="h endeksi">{{ akademisyen['h endeksi'] }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">i10-endeksi</span>
+                            <span class="metric-value" data-metric="i10 endeksi">{{ akademisyen['i10 endeksi'] }}</span>
+                        </div>
+                    </div>
+
+                    {% if akademisyen['Makale Başlıkları'] %}
+                    <button class="toggle-button" onclick="toggleArticles(this)">Makaleleri Göster</button>
+                    <div class="publications" style="display: none;">
+                        <h5>Makaleler</h5>
+                        <div class="publications-list">
+                            <ol>
+                            {% for makale in akademisyen['Makale Başlıkları'] %}
+                                <li>
+                                    {{ makale }}
+                                    <button class="like-button {% if makale in liked_articles %}liked{% endif %}" onclick="toggleLike(this, '{{ akademisyen.Akademisyen }}', '{{ makale }}')">♡</button>
+                                    <span class="like-count">{{ like_counts[makale] if makale in like_counts else 0 }}</span>
+                                    <button class="comment-button" onclick="toggleCommentSection(this)">💬</button>
+                                    <span class="comment-count">{{ comment_counts[makale] if makale in comment_counts else 0 }}</span>
+                                    <div class="comment-section" style="display: none;">
+                                        <textarea placeholder="Yorum yaz..."></textarea>
+                                        <button onclick="submitComment(this, '{{ akademisyen.Akademisyen }}', '{{ makale }}')">Gönder</button>
+                                        <div class="comments-list">
+                                            {% for comment in comments %}
+                                                {% if comment.akademisyen == akademisyen.Akademisyen and comment.makale == makale %}
+                                                    <div class="comment">
+                                                        <img src="{{ url_for('static', filename='profile.png') }}" alt="Profil Simgesi" class="comment-profile-image">
+                                                        <div class="comment-content">
+                                                            <p><strong>Misafir Kullanıcı</strong></p>
+                                                            <p>{{ comment.comment }}</p>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                            </ol>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>Henüz veri bulunmamaktadır.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="../static/scriptM.js"></script>
+{% endblock %}

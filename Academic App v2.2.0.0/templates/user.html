@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Profili</title>
+    <link rel="stylesheet" href="/static/styleU.css">
+</head>
+<body>
+    <div class="profile-container">
+        <img src="/static/profile.png" alt="Profil Resmi" class="profile-image">
+        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+        <p>Yaptığı Beğeniler Sayısı: <span class="highlight">{{ user.likes_given }}</span></p>
+        <p>Aldığı Beğeniler Sayısı: <span class="highlight">{{ user.likes_received }}</span></p>
+        <p>Yaptığı Yorum Sayısı: <span class="highlight">{{ user.comments_made }}</span></p>
+        <p>Doğum Günü Tarihi: <span class="highlight">{{ user.birthdate }}</span></p>
+        <p>Okuduğu Üniversite: <span class="highlight">{{ user.university }}</span></p>
+        <p>Durum: <span class="highlight">{{ user.status }}</span></p>
+        <p>İlgi Alanları:</p>
+        <ul>
+            {% for interest in user.interests %}
+            <li>{{ interest }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script src="/static/scriptU.js"></script>
+</body>
+</html>

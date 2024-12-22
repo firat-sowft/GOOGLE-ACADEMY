@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=2.8, maximum-scale=2.8">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #f5f5f5;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+        }
+
+        html, body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .university-detail {
+            width: 66.67%;
+            min-height: 100vh;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 15px;
+        }
+
+        .department-title {
+            color: var(--secondary-color);
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 40px;
+        }
+
+        h3 {
+            color: var(--primary-color);
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .academics-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            padding: 20px 0;
+            width: 100%;
+        }
+
+        .academic-card {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .academic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .academic-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--secondary-color);
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .academic-header h4 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.3em;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 10px;
+            background-color: var(--background-color);
+            border-radius: 8px;
+        }
+
+        .metric-label {
+            display: block;
+            font-size: 0.9em;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            display: block;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .publications {
+            margin-top: 20px;
+        }
+
+        .publications h5 {
+            color: var(--primary-color);
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .publications-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .publications-list ol {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .publications-list li {
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            color: var(--text-color);
+        }
+
+        /* Scrollbar styling */
+        .publications-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .publications-list::-webkit-scrollbar-track {
+            background: var(--background-color);
+            border-radius: 4px;
+        }
+
+        .publications-list::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .university-detail {
+                width: 90%;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .department-title {
+                font-size: 1.5em;
+            }
+
+            .academic-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-info {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% block content %}{% endblock %}

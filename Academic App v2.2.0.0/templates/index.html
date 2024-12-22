@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACADEMY PROJECT</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="profile-section">
+                <a href="http://localhost:5000/user.html" class="profile-link" target="_blank">
+                    <img src="../static/profile.png" alt="Profile" class="profile-icon">
+                </a>
+                <span class="user-name">Misafir Kullanıcı</span>
+            </div>
+            <h1>ACADEMY PROJECT</h1>
+        </div>
+        <p>Welcome to the Academy Project</p>
+    </header>
+    <div class="container">
+        <main>
+            <div id="elazigModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h4>ÜNİVERSİTELER</h4>
+                    <p id="firatLink">Fırat Üniversitesi</p>
+                </div>
+            </div>
+            <div id="firatModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h4>Fırat Üniversitesi Bölümleri</h4>
+                    <a href="http://localhost:5000/yazilimM.html" class="button" target="_blank">Yazılım Mühendisliği (Mühendislik Fakültesi)</a>
+                    <a href="http://localhost:5000/yazilimT.html" class="button" target="_blank">Yazılım Mühendisliği (Teknoloji Fakültesi)</a>
+                </div>
+            </div>
+            <div id="izmirModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h4>ÜNİVERSİTELER</h4>
+                    <p>Dokuz Eylül Üniversitesi. İZMİR Devlet Üniversitesi.</p>
+                    <p>Ege Üniversitesi. İZMİR Devlet Üniversitesi.</p>
+                    <p>İzmir Bakırçay Üniversitesi. İZMİR Devlet Üniversitesi.</p>
+                    <p>İzmir Demokrasi Üniversitesi. İZMİR Devlet Üniversitesi.</p>
+                    <p>İzmir Katip Çelebi Üniversitesi. İZMİR Devlet Üniversitesi.</p>
+                    <p>İzmir Yüksek Teknoloji Enstitüsü. İZMİR Devlet Üniversitesi.</p>
+                    <p id="izmirEconomyLink">İzmir Ekonomi Üniversitesi. İZMİR Vakıf Üniversitesi.</p>
+                </div>
+            </div>
+            <div id="izmirEconomyModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h4>İzmir Ekonomi Üniversitesi Bölümleri</h4>
+                    <a href="http://localhost:5000/izmirE.html" class="button" target="_blank">Mühendislik Fakültesi Yazılım Mühendisliği</a>
+                </div>
+            </div>
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+        </main>
+    </div>
+    <section id="about" class="about-section">
+        <h2>Hakkımızda</h2>
+        <h2>Proje Ekibi</h2>
+        <ul>
+            <li><strong>Scrum Master:</strong> Hüseyin Deniz</li>
+            <li><strong>Veritabanı Uzmanı:</strong> Kenan Yılmaz</li>
+            <li><strong>Frontend Uzmanı:</strong> Taha Erkan</li>
+            <li><strong>Frontend Geliştirici ve Veritabanı Uzmanı:</strong> Muhammed Göymen</li>
+        </ul>
+        <h2>Proje Hakkında</h2>
+        <p>Bu proje, Türkiye haritası üzerinde çeşitli üniversitelerin yazılım mühendisliği bölümlerini tanıtmak amacıyla geliştirilmiştir. Proje ekibi olarak, kullanıcı dostu bir arayüz ve güvenilir veritabanı bağlantıları sağlamak için çalıştık.</p>
+    </section>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="../static/script.js"></script>
+</body>
+</html>

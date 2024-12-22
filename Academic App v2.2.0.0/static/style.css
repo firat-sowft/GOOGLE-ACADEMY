@@ -1,0 +1,188 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --background-color: #f5f5f5;
+    --card-background: #ffffff;
+    --text-color: #333333;
+    --border-color: #e0e0e0;
+    --highlight-color: #ffcc00; /* Yeni renk ekledik */
+    --text-highlight-color: #555555; /* Yeni renk ekledik */
+}
+
+html, body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.profile-section {
+    position: absolute;
+    left: 20px; /* Profil resmini sola yapıştır */
+    display: flex;
+    align-items: center;
+}
+
+.profile-link {
+    margin-right: 10px;
+}
+
+.profile-icon {
+    width: 80px; /* Profil resmini daha büyük yap */
+    height: 100px;
+}
+
+.user-name {
+    font-size: 1.2em;
+    color: white;
+}
+
+.header h1 {
+    font-size: 2em;
+    margin: 0;
+    font-weight: bold;
+}
+
+.header p {
+    font-size: 1em;
+    margin: 10px 0 0;
+}
+
+.container {
+    padding: 20px;
+    text-align: center;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h4 {
+    margin-top: 0;
+}
+
+.modal-content p {
+    margin: 10px 0;
+}
+
+#firatLink {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#firatLink:hover {
+    text-decoration: underline;
+}
+
+.button {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.button:hover {
+    background-color: #e0e0e0;
+}
+
+#map {
+    height: 600px;
+    width: 100%;
+}
+
+.about-section {
+    padding: 20px;
+    background-color: var(--card-background);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    border-left: 5px solid var(--highlight-color); /* Kenarlık ekledik */
+    border-radius: 10px; /* Köşeleri yuvarladık */
+}
+
+.about-section h2 {
+    color: var(--primary-color); /* Başlık rengini değiştirdik */
+    border-bottom: 2px solid var(--highlight-color); /* Başlık altına çizgi ekledik */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.about-section ul {
+    list-style-type: none; /* Liste işaretlerini kaldırdık */
+    padding: 0;
+}
+
+.about-section ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color); /* Liste öğeleri arasına çizgi ekledik */
+    color: var(--text-highlight-color); /* Yazı rengini değiştirdik */
+}
+
+.about-section ul li:last-child {
+    border-bottom: none; /* Son liste öğesindeki çizgiyi kaldırdık */
+}
+
+.about-section p {
+    margin-top: 20px;
+    line-height: 1.8; /* Satır yüksekliğini artırdık */
+    color: var(--text-highlight-color); /* Yazı rengini değiştirdik */
+}
